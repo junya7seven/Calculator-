@@ -5,11 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp2"
         mc:Ignorable="d"
-        Title="Calculator+=+" Height="450" Width="300"
+        Title="Calculator+=+" Height="450" Width="300" ResizeMode="NoResize"
         Background="Black">
         
     <Grid>
-        <TextBox x:Name="Display" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="50" FontSize="24" TextAlignment="Right" Margin="10,10,10,0" Background="Gray"/>
+        <TextBox x:Name="Display" PreviewTextInput="TextBox_PreviewTextInput" PreviewKeyDown="TextBox_PreviewKeyDown" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="50" FontSize="24" TextAlignment="Right" Margin="10,10,10,0" Background="Black" Foreground="White" TextChanged="Display_TextChanged"/>
         <Grid Margin="10,70,10,10">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
@@ -27,7 +27,7 @@
             </Grid.RowDefinitions>
 
             <Grid.Resources>
-                <Style x:Key="RoundButton" TargetType="Button">
+                <Style x:Key="OperationButton" TargetType="Button">
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="Button">
@@ -38,43 +38,75 @@
                             </ControlTemplate>
                         </Setter.Value>
                     </Setter>
+                    <Setter Property="Foreground" Value="White"/>
+                    <Setter Property="FontWeight" Value="ExtraBold"/>
+                </Style>
+
+                <Style x:Key="NumberButton" TargetType="Button">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="Button">
+                                <Grid>
+                                    <Ellipse Width="50" Height="50" Fill="DimGray"/>
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Grid>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    <Setter Property="Foreground" Value="White"/>
+                    <Setter Property="FontWeight" Value="ExtraBold"/>
+                </Style>
+
+                <Style x:Key="UpOperationsButton" TargetType="Button">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="Button">
+                                <Grid>
+                                    <Ellipse Width="50" Height="50" Fill="LightGray"/>
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Grid>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
                     <Setter Property="Foreground" Value="Black"/>
-                    <Setter Property="FontWeight" Value="Bold"/>
+                    <Setter Property="FontWeight" Value="ExtraBold"/>
                 </Style>
             </Grid.Resources>
 
-            <Button Content="√" Grid.Column="0" Grid.Row="0" Click="Sqrt_Click" Style="{StaticResource RoundButton}"/>
-            <Button Content="x²" Grid.Column="1" Grid.Row="0" Click="Sqrt_Click" Style="{StaticResource RoundButton}"/>
 
-            <Button Content="C" Grid.Column="0" Grid.Row="1" Click="Clear_Click" Style="{StaticResource RoundButton}"/>
-            <Button Content="+/-" Grid.Column="1" Grid.Row="1" Click="Negate_Click" Style="{StaticResource RoundButton}"/>
-            <Button Content="%" Grid.Column="2" Grid.Row="1" Click="Percentage_Click" Style="{StaticResource RoundButton}"/>
-            <Button Content="/" Grid.Column="3" Grid.Row="1" Click="Operator_Click" Style="{StaticResource RoundButton}"/>
 
-            <Button Content="7" Grid.Column="0" Grid.Row="2" Click="Digit_Click" Style="{StaticResource RoundButton}"/>
-            <Button Content="8" Grid.Column="1" Grid.Row="2" Click="Digit_Click" Style="{StaticResource RoundButton}"/>
-            <Button Content="9" Grid.Column="2" Grid.Row="2" Click="Digit_Click" Style="{StaticResource RoundButton}"/>
-            <Button Content="X" Grid.Column="3" Grid.Row="2" Click="Operator_Click" Style="{StaticResource RoundButton}"/>
+            <Button Content="√" Grid.Column="0" Grid.Row="0" Click="Sqrt_Click" Style="{StaticResource UpOperationsButton}"/>
+            <Button Content="x²" Grid.Column="1" Grid.Row="0" Click="Sqrt_Click" Style="{StaticResource UpOperationsButton}"/>
 
-            <Button Content="4" Grid.Column="0" Grid.Row="3" Click="Digit_Click" Style="{StaticResource RoundButton}"/>
-            <Button Content="5" Grid.Column="1" Grid.Row="3" Click="Digit_Click" Style="{StaticResource RoundButton}"/>
-            <Button Content="6" Grid.Column="2" Grid.Row="3" Click="Digit_Click" Style="{StaticResource RoundButton}"/>
-            <Button Content="-" Grid.Column="3" Grid.Row="3" Click="Operator_Click" Style="{StaticResource RoundButton}"/>
+            <Button Content="C" Grid.Column="0" Grid.Row="1" Click="Clear_Click" Style="{StaticResource UpOperationsButton}"/>
+            <Button Content="+/-" Grid.Column="1" Grid.Row="1" Click="Negate_Click" Style="{StaticResource UpOperationsButton}"/>
+            <Button Content="%" Grid.Column="2" Grid.Row="1" Click="Percentage_Click" Style="{StaticResource UpOperationsButton}"/>
+            <Button Content="/" Grid.Column="3" Grid.Row="1" Click="Operator_Click" Style="{StaticResource OperationButton}"/>
 
-            <Button Content="1" Grid.Column="0" Grid.Row="4" Click="Digit_Click" Style="{StaticResource RoundButton}"/>
-            <Button Content="2" Grid.Column="1" Grid.Row="4" Click="Digit_Click" Style="{StaticResource RoundButton}"/>
-            <Button Content="3" Grid.Column="2" Grid.Row="4" Click="Digit_Click" Style="{StaticResource RoundButton}"/>
-            <Button Content="+" Grid.Column="3" Grid.Row="4" Click="Operator_Click" Style="{StaticResource RoundButton}"/>
+            <Button Content="7" Grid.Column="0" Grid.Row="2" Click="Digit_Click" Style="{StaticResource NumberButton}"/>
+            <Button Content="8" Grid.Column="1" Grid.Row="2" Click="Digit_Click" Style="{StaticResource NumberButton}"/>
+            <Button Content="9" Grid.Column="2" Grid.Row="2" Click="Digit_Click" Style="{StaticResource NumberButton}"/>
+            <Button Content="X" Grid.Column="3" Grid.Row="2" Click="Operator_Click" Style="{StaticResource OperationButton}"/>
+
+            <Button Content="4" Grid.Column="0" Grid.Row="3" Click="Digit_Click" Style="{StaticResource NumberButton}"/>
+            <Button Content="5" Grid.Column="1" Grid.Row="3" Click="Digit_Click" Style="{StaticResource NumberButton}"/>
+            <Button Content="6" Grid.Column="2" Grid.Row="3" Click="Digit_Click" Style="{StaticResource NumberButton}"/>
+            <Button Content="-" Grid.Column="3" Grid.Row="3" Click="Operator_Click" Style="{StaticResource OperationButton}"/>
+
+            <Button Content="1" Grid.Column="0" Grid.Row="4" Click="Digit_Click" Style="{StaticResource NumberButton}"/>
+            <Button Content="2" Grid.Column="1" Grid.Row="4" Click="Digit_Click" Style="{StaticResource NumberButton}"/>
+            <Button Content="3" Grid.Column="2" Grid.Row="4" Click="Digit_Click" Style="{StaticResource NumberButton}"/>
+            <Button Content="+" Grid.Column="3" Grid.Row="4" Click="Operator_Click" Style="{StaticResource OperationButton}"/>
 
             <Button Content="0" Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="2" Click="Digit_Click">
                 <Button.Template>
                     <ControlTemplate TargetType="Button">
                         <Grid>
-                            <Rectangle Width="130" Height="50" Fill="LightGray" RadiusX="10" RadiusY="10"/>
+                            <Rectangle Width="130" Height="50" Fill="DimGray" RadiusX="10" RadiusY="10"/>
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center">
                                 <ContentPresenter.Resources>
                                     <Style TargetType="TextBlock">
-                                        <Setter Property="Foreground" Value="Black"/>
+                                        <Setter Property="Foreground" Value="White"/>
                                         <Setter Property="FontWeight" Value="Bold"/>
                                     </Style>
                                 </ContentPresenter.Resources>
@@ -84,8 +116,8 @@
                 </Button.Template>
             </Button>
 
-            <Button Content="," Grid.Column="2" Grid.Row="5" Click="Decimal_Click" Style="{StaticResource RoundButton}"/>
-            <Button Content="=" Grid.Column="3" Grid.Row="5" Click="Equals_Click" Style="{StaticResource RoundButton}"/>
+            <Button Content="," Grid.Column="2" Grid.Row="5" Click="Decimal_Click" Style="{StaticResource NumberButton}"/>
+            <Button Content="=" Grid.Column="3" Grid.Row="5" Click="Equals_Click" Style="{StaticResource OperationButton}"/>
         </Grid>
     </Grid>
 

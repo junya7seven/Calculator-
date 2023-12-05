@@ -27,6 +27,24 @@ namespace WpfApp2
         {
             InitializeComponent();
         }
+        private void TextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            if (!char.IsDigit(e.Text, e.Text.Length - 1))
+            {
+                e.Handled = true; 
+            }
+        }
+
+        private void TextBox_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Back || e.Key == Key.Delete || e.Key == Key.Left || e.Key == Key.Right)
+            {
+                e.Handled = false; 
+                return;
+            }
+            e.Handled = !((e.Key >= Key.D0 && e.Key <= Key.D9) || (e.Key >= Key.NumPad0 && e.Key <= Key.NumPad9));
+        }
+
         private void Digit_Click(object sender, RoutedEventArgs e)
         {
             if (isNewNumber)
@@ -130,6 +148,11 @@ namespace WpfApp2
                      }
                      break;
              }      
+        }
+
+        private void Display_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
         }
     } 
 }
